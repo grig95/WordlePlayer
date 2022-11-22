@@ -65,6 +65,7 @@ def play(conn = None, chosen_word=None, log_file=None):
     #log guesses if required
     if log_file is not None:
         log_guesses(log_file)
+    return guess_list
 
 
 if __name__ == '__main__':
