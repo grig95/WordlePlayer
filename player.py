@@ -5,18 +5,18 @@ import wordle
 import os
 from math import ceil
 
-def play(chosen_word=None, log_file=None):
+def play(chosen_word=None, log_file=None, debug_mode=False):
     #creating pipe
     player_conn, game_conn = Pipe()
 
     #creating player process
-    player_process=Process(target=solution.solve, args=(player_conn,))
+    player_process=Process(target=solution.solve, args=(player_conn, debug_mode))
 
     #starting player process
     player_process.start()
 
     #running game on current process and saving guess_list
-    guess_list = wordle.play(game_conn, chosen_word, log_file)
+    guess_list = wordle.play(game_conn, chosen_word, log_file, debug_mode)
 
     #waiting for processes to finish execution and joining threads
     player_process.join()

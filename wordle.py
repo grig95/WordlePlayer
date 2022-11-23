@@ -20,7 +20,7 @@ def log_guesses(log_file):
 #If the chosen word is None, the game will pick one at random.
 #If the log file name is not None, the game will save the guesses in the specified file, in the specified format
 #(i.e. solution, guess1, guess2,... guessN=solution).
-def play(conn = None, chosen_word=None, log_file=None):
+def play(conn = None, chosen_word=None, log_file=None, debug_mode=False):
     #mark globals
     global guess_list
 

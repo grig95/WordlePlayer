@@ -11,11 +11,12 @@ def get_input(conn = None):
         return conn.recv()
 
 #Sends output to either connection conn or stdout
-def send_output(output, conn = None):
+#Setting debug_mode to True will also print the output to console
+def send_output(output, conn = None, debug_mode=False):
     global DEBUG_MODE
     if conn is None:
         print(output)
     else:
         conn.send(output)
-        if DEBUG_MODE:
+        if DEBUG_MODE or debug_mode:
             print(output)

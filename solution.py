@@ -38,7 +38,7 @@ def delete_not_in_word(letter):
         del word_dictionary[s]
 
 
-def solve(conn=None, guess_list_save_file=None):
+def solve(conn=None, debug_mode=False):
     #mark global variables
     global word_list
     global word_dictionary
@@ -82,7 +82,7 @@ def solve(conn=None, guess_list_save_file=None):
                 guess = x
 
         #printing guess
-        utility.send_output(guess, conn)
+        utility.send_output(guess, conn, debug_mode)
 
         #reading the reply and managing it
         reply = utility.get_input(conn)
