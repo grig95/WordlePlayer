@@ -5,7 +5,7 @@ Team: Anghel Fabian, Grigore Mihai, Bobic Teona
 In this project, we created a Wordle Game, that includes also a program that allows a human to play the game by himself and a program that let's you see how a computer can play the game, on his own. As a team, we also used the Shannon Entropy to ifnd the average number of guesses. As you may know, at a conceptual level, Shannon's Entropy is simply the "amount of information" in a variable.
 
 ***How to use***
-The project features two different programs, one for the game and one as a player. To try the game yourself, run the wordle.py script. If you'd rather watch the computer play or if you'd like to recalculate the results, simply run the player.py script. 
+&nbsp;&nbsp;&nbsp;&nbsp; The project features two different programs, one for the game and one as a player. To try the game yourself, run the wordle.py script. If you'd rather watch the computer play or if you'd like to recalculate the results, simply run the player.py script. 
 
 The current average number of guesses is: 4.5858215470577965
 
