@@ -53,6 +53,7 @@ def partial_test(id, words, queue, verbose=False):
             print(f'Process {id} finished {count} words.')
         count+=1
     queue.put((id, guesses))
+    print(f'Process {id} finished.')
 
 
 def full_test(log_file, verbose=False):
@@ -109,3 +110,4 @@ def full_test(log_file, verbose=False):
 
 if __name__ == '__main__':
     full_test("solutii.txt", True)
+    #play(debug_mode=True)
