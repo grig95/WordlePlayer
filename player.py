@@ -5,7 +5,7 @@ import wordle
 import os
 from math import ceil
 
-def play(chosen_word=None, log_file=None, debug_mode=False):
+def play(chosen_word=None, debug_mode=False):
     #creating pipe
     player_conn, game_conn = Pipe()
 
@@ -16,7 +16,7 @@ def play(chosen_word=None, log_file=None, debug_mode=False):
     player_process.start()
 
     #running game on current process and saving guess_list
-    guess_list = wordle.play(game_conn, chosen_word, log_file, debug_mode)
+    guess_list = wordle.play(game_conn, chosen_word, debug_mode)
 
     #waiting for processes to finish execution and joining threads
     player_process.join()
@@ -42,14 +42,20 @@ def calculate_average_guesses(log_file):
     file.write(str(result))
 
 
-def partial_test(id, words, queue):
+def partial_test(id, words, queue, verbose=False):
+    if verbose:
+        print(f'Process {id} started and assigned {len(words)} words.')
     guesses=[]
+    count=1
     for word in words:
         guesses.append(play(word))
+        if verbose and count%100==0:
+            print(f'Process {id} finished {count} words.')
+        count+=1
     queue.put((id, guesses))
 
 
-def full_test(log_file):
+def full_test(log_file, verbose=False):
     #open dictionary file and get words
     dict=open("cuvinte_wordle.txt", 'r')
     word_list=[x for x in dict.read().strip('\n').split()]
@@ -63,11 +69,14 @@ def full_test(log_file):
     # !!! os.cpu_count() actually reports the number of LOGICAL CORES !!!
     process_count=int(os.cpu_count()/2)-1 # 2 'cores' are needed for each game-player instance
     words_per_process=ceil(len(word_list)/process_count)
-    processes=[Process(target=partial_test, args=(x, word_list[x*words_per_process:(x+1)*words_per_process], queue)) for x in range(process_count)]
+    processes=[Process(target=partial_test, args=(x, word_list[x*words_per_process:(x+1)*words_per_process], queue, verbose)) for x in range(process_count)]
 
     #start worker processes
     for process in processes:
         process.start()
+
+    if verbose:
+        print(f'Started {process_count} worker processes.')
 
     #get results
     results=[[] for _ in range(process_count)]
@@ -78,6 +87,9 @@ def full_test(log_file):
     #join processes
     for process in processes:
         process.join()
+
+    if verbose:
+        print('All processes finished!')
 
     #output results in log_file
     file=open(log_file, 'w')
@@ -91,6 +103,9 @@ def full_test(log_file):
 
     calculate_average_guesses(log_file)
 
+    if verbose:
+        print('Done!')
+
 
 if __name__ == '__main__':
-    full_test('solutii.txt')
+    full_test("solutii.txt", True)

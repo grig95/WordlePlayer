@@ -7,20 +7,13 @@ import utility
 #globals
 guess_list=[]
 
-def log_guesses(log_file):
-    file=open(log_file, 'a')
-    file.write(guess_list[-1]+' ')
-    for guess in guess_list:
-        file.write(guess+' ')
-    file.write('\n')
-
 #Takes as arguments a connection through which to communicate with the player process, a chosen word and
 #a log file name.
 #If the connection is None, the game will run in human-playable format.
 #If the chosen word is None, the game will pick one at random.
 #If the log file name is not None, the game will save the guesses in the specified file, in the specified format
 #(i.e. solution, guess1, guess2,... guessN=solution).
-def play(conn = None, chosen_word=None, log_file=None, debug_mode=False):
+def play(conn = None, chosen_word=None, debug_mode=False):
     #mark globals
     global guess_list
 
@@ -42,7 +35,6 @@ def play(conn = None, chosen_word=None, log_file=None, debug_mode=False):
 
     #game loop
     while guess != chosen_word:
-        counter+=1
         guess=utility.get_input(conn)
         guess_list.append(guess)
         #generate guess reply where reply[i] is:
@@ -51,20 +43,19 @@ def play(conn = None, chosen_word=None, log_file=None, debug_mode=False):
         # -, otherwise
         reply=str()
         for i in range(5):
+            if i>len(guess)-1:
+                print(i)
+                print(guess)
+                print(chosen_word)
             if guess[i] == chosen_word[i]:
                 reply+='x'
             elif letter_frequency[ord(guess[i])-ord('A')] > 0:
                 reply+='*'
             else:
                 reply+='-'
-        utility.send_output(reply, conn)
+        utility.send_output(reply, conn, debug_mode)
 
-    #send/print total number of tries
-    utility.send_output(counter, conn)
-
-    #log guesses if required
-    if log_file is not None:
-        log_guesses(log_file)
+    #log guesses 
     return guess_list
 
 
