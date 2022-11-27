@@ -1,5 +1,5 @@
 # WordlePlayer
-Team: Anghel Fabian, Grigore Mihai, Bobic Teona
+Team FMT: Anghel Fabian, Grigore Mihai, Bobic Teona
 
 ***Description***
 
