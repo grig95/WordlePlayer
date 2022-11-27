@@ -4,6 +4,7 @@ import solution
 import wordle
 import os
 from math import ceil
+import sys
 
 def play(chosen_word=None, debug_mode=False):
     #creating pipe
@@ -109,5 +110,27 @@ def full_test(log_file, verbose=False):
 
 
 if __name__ == '__main__':
-    full_test("solutii.txt", True)
-    #play(debug_mode=True)
+    single=False
+    f_test=False
+    verbose=False
+    for i in range(1, len(sys.argv)):
+        if sys.argv[i]=='-s':
+            single=True
+        elif sys.argv[i]=='-f':
+            f_test=True
+        elif sys.argv[i]=='-v':
+            verbose=True
+        else:
+            print(f"Warning! Argument '{sys.argv[i]}' is invalid!")
+
+    if single and f_test:
+        print('Invalid arguments!')
+    elif single:
+        play(debug_mode=True)
+    elif f_test:
+        if verbose:
+            full_test('solutii.txt', True)
+        else:
+            full_test('solutii.txt')
+    else:
+        play(debug_mode=True)

@@ -69,7 +69,7 @@ def solve(conn=None, debug_mode=False):
             for i in range(5):
                 let_freq[i][ord(x[i]) - ord('A')] += 1
 
-        #calculating the probability of each word
+        #calculating the entropy of each word
         for x in word_dictionary:
             word_dictionary[x] = 1
             for i in range(5):
